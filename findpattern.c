@@ -42,7 +42,7 @@ void patternFound(int memory_index, struct patmatch *locations) {
 	locations[memory_index] = temp; 
 }
 
-int isReadOnly(int memory_index) {
+int memType(int memory_index) {
 	if (MEM[memory_index].RW) {
 		return MEM_RW; 
 	} else {
