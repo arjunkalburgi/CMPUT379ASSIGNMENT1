@@ -29,7 +29,7 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
 			memory_index++;
 		}
 	}
-
+	// yo
 	return patsfound;
 }
 
