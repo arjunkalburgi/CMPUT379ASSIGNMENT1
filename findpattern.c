@@ -4,7 +4,7 @@
 unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct patmatch *locations, unsigned int loclength) {
 	// get access to memory (system call?) 
 	unsigned int start = 0; 
-	unsigned int end = 2^32; 
+	unsigned int end = (2^32)-1; 
 
 	unsigned int patsfound = 0; 
 
