@@ -4,8 +4,8 @@ int SEGFAULT = 0; //0 = no segfault, 1 = segfault
 
 unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct patmatch *locations, unsigned int loclength) {
 	// get access to memory (system call?) 
-	u_int32 page_start = 0x00000000; 
-	u_int32 page_end = 0xFFFFFFFF;
+	unsigned int page_start = 0x00000000; 
+	unsigned int page_end = 0xFFFFFFFF;
 
 	// handler 
 	struct sigaction act;
@@ -14,10 +14,10 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
 
 	// variables 
 	unsigned int patsfound = 0; 
-	u_int32 *page; 
+	unsigned int *page; 
 
 	// cycle through pages
-	for (page=page_start; page<page_end; page+=getpagesize()) {
+	for (page=(int *)page_start; page<(int *)page_end; page+=getpagesize()) {
 		char x = *page; 
 		//signal handler
 		if (SEGFAULT == 1) {
@@ -26,7 +26,7 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
 		}
 
 		char * memory_index;
-		for (memory_index=page; memory_index<=(page+getpagesize()); memory_index++) {
+		for (memory_index=(char *)page; memory_index<=(char *)(page+getpagesize()); memory_index++) {
 			
 			printf("Tellemtellemtellemtellem\n");
 			// char * pattern_index; 
