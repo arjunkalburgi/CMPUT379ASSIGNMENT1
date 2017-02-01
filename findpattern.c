@@ -10,6 +10,7 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
 	// handler 
 	struct sigaction act;
 	act.sa_handler = test; 
+	sigemptyset(&act.sa_mask); 
 	sigaction(SIGSEGV, &act, 0);
 
 	// variables 
@@ -21,7 +22,8 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
 		char x = *page; 
 		//signal handler
 		if (SEGFAULT == 1) {
-			SEGFAULT = 0; 
+			SEGFAULT = 0;
+			printf("hi");  
 			continue; // skip to next page
 		}
 

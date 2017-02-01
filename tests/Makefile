@@ -1,3 +1,6 @@
+default: 
+	gcc -m32 drivers1.c ../findpattern.c -o test1
+
 driver1: 
 	gcc -m32 drivers1.c ../findpattern.c -o test1
 
