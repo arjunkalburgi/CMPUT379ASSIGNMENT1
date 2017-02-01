@@ -66,7 +66,7 @@ void test (int sig) {
 void patternFound(char * memory_index, struct patmatch *locations, unsigned int patsfound) {
 	// make patmatch 
 	struct patmatch temp; 
-	strcpy (temp.location, &memory_index); 
+	strcpy (temp.location, memory_index); 
 	strcpy (temp.mode, memType(memory_index));
 	
 	locations[patsfound*3] = temp; 
