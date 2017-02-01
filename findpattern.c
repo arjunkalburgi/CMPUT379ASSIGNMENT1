@@ -1,13 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <setjmp.h>
+#include "findpattern.h"
 
 int SEGFAULT = 0; //0 = no segfault, 1 = segfault
 
 unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct patmatch *locations, unsigned int loclength) {
 	// get access to memory (system call?) 
-	unsigned int start = 0x00000000; 
-	unsigned int end = 0xFFFFFFF;
+	char *start = (char *) 0x00000000; 
+	char *end = (char *) 0xFFFFFFFF;
 
 	// handler 
 	struct sigaction act;
@@ -28,11 +26,12 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
 			SEGFAULT = 0; 
 			continue;
 		}
+		
+		char * pattern_index; 
+		for (pattern_index=0; pattern_index<=(char *)patlength; pattern_index++) {
+			if (pattern[(int)pattern_index] == *memory_index) { // the item at pattern_index is the same as the item at memory_index
 
-		for (int pattern_index=0; pattern_index<=patlength; pattern_index++) {
-			if (pattern[pattern_index] == *memory_index) { // the item at pattern_index is the same as the item at memory_index
-
-				if (pattern_index == patlength) { // we are at the last item in the pattern
+				if ((int)pattern_index == patlength) { // we are at the last item in the pattern
 					printf("PAT found\n");
 					if (patsfound < loclength) { // we are under the storage limit
 						patternFound(memory_index, locations, patsfound); // make and store
