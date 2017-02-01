@@ -1,6 +1,7 @@
 #include "findpattern.h"
 
 int SEGFAULT = 0; //0 = no segfault, 1 = segfault
+jmp_buf env; 
 
 unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct patmatch *locations, unsigned int loclength) {
 	// get access to memory (system call?) 
@@ -28,7 +29,7 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
 			printf("jmp did not reset SEGFAULT");  
 			continue; // skip to next page
 		}
-		printf("jmp did reset SEGFAULT\n", );
+		printf("jmp did reset SEGFAULT\n");
 
 		char * memory_index;
 		for (memory_index=(char *)page; memory_index<=(char *)(page+getpagesize()); memory_index++) {
@@ -65,6 +66,7 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
 
 void test (int sig) {
 	printf("SEGFAULT found\n"); 
+	printf("I am here\n");
 	SEGFAULT = 1;
 	siglongjmp(env, 1);
 }
