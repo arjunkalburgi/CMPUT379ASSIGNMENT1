@@ -4,29 +4,31 @@ int SEGFAULT = 0; //0 = no segfault, 1 = segfault
 
 unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct patmatch *locations, unsigned int loclength) {
 	// get access to memory (system call?) 
-	u_int32 mem_start = 0x00000000; 
-	u_int32 mem_end = 0xFFFFFFFF;
+	unsigned int mem_start = 0x00000000; 
+	unsigned int mem_end = 0xFFFFFFFF;
 
 	// handler 
 	struct sigaction act;
 	act.sa_handler = test; 
+	sigemptyset(&act.sa_mask); 
 	sigaction(SIGSEGV, &act, 0);
 
 	// variables 
 	unsigned int patsfound = 0; 
-	u_int32 *page; 
+	unsigned int *page; 
 
 	// cycle through pages
-	for (page=mem_start; page<mem_end; page+=getpagesize()) {
+	for (page=(int *)mem_start; page<(int *)mem_end; page+=getpagesize()) {
 		char x = *page; 
 		//signal handler
 		if (SEGFAULT == 1) {
-			SEGFAULT = 0; 
+			SEGFAULT = 0;
+			printf("hi");  
 			continue; // skip to next page
 		}
 
 		char * memory_index;
-		for (memory_index=page; memory_index<=(page+getpagesize()); memory_index++) {
+		for (memory_index=(char *)page; memory_index<=(char *)(page+getpagesize()); memory_index++) {
 			
 			printf("Tellemtellemtellemtellem\n");
 			// char * pattern_index; 
