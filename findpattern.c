@@ -7,7 +7,7 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
 	// get access to memory (system call?) 
 	unsigned int mem_start = 0x00000000; 
 	unsigned int mem_end = 0xFFFFFFFF;
-
+//h
 	// handler 
 	struct sigaction act;
 	act.sa_handler = test; 
