@@ -1,11 +1,19 @@
-default: 
-	gcc -g -Wall -m32 drivers1.c ../findpattern.c -o test1
+CC=gcc
+pattern?=
 
-driver1: 
-	gcc -m32 drivers1.c ../findpattern.c -o test1
+all: driver1
 
-driver2: 
-	gcc -m32 drivers2.c ../findpattern.c -o test2
+clean: 
+	@rm test1 test2 test3
 
-driver3: 
-	gcc -m32 drivers3.c ../findpattern.c -o test3
+driver1: drivers1.c ../findpattern.c
+	$(CC) -g -Wall -m32 $< ../findpattern.c -o test1
+	./test1 $(pattern)
+
+driver2: drivers2.c 
+	$(CC) -m32 $< ../findpattern.c -o test2
+	./test2 $(pattern)
+
+driver3: drivers3.c
+	$(CC) -m32 $< ../findpattern.c -o test3
+	./test3 $(pattern)
