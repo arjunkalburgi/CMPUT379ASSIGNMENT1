@@ -18,18 +18,23 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
 	unsigned int patsfound = 0; 
 	unsigned int *page; 
 
+	printf("getpagesize() %d\n", getpagesize()); 
+
 	// cycle through pages
 	for (page=(int *)mem_start; page<(int *)mem_end; page+=getpagesize()) {
 
-		sigsetjmp(env,1);	
-		char x = *page; 
+		sigsetjmp(env,1);
+		printf("start %d\n", page); 
 		//signal handler
 		if (SEGFAULT == 1) {
+			printf("inside - SEGFAULT %d - Page Num %d\n", SEGFAULT, page);  
 			SEGFAULT = 0;
-			printf("jmp did not reset SEGFAULT");  
 			continue; // skip to next page
 		}
-		printf("jmp did reset SEGFAULT\n");
+		printf("outsidebef - SEGFAULT %d - Page Num %d\n", SEGFAULT, page);
+		char x = *page; 
+		printf("outsideaft - SEGFAULT %d - Page Num %d\n", SEGFAULT, page);
+	
 
 		char * memory_index;
 		for (memory_index=(char *)page; memory_index<=(char *)(page+getpagesize()); memory_index++) {
@@ -69,6 +74,7 @@ void test (int sig) {
 	printf("I am here\n");
 	SEGFAULT = 1;
 	siglongjmp(env, 1);
+	return; 
 }
 
 void patternFound(char * memory_index, struct patmatch *locations, unsigned int patsfound) {
