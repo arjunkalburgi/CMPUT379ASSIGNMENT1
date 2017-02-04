@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <setjmp.h>
 #include <signal.h>
 
@@ -16,7 +17,7 @@ struct patmatch {
 
 unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct patmatch *locations, unsigned int loclength);
 void test (int sig);
-void patternFound(char * memory_index, struct patmatch *locations, unsigned int patsfound); 
-int memType(char * memory_index);
+void patternFound(unsigned int memory_index, struct patmatch *locations, unsigned int patsfound);
+unsigned int memType(unsigned int memory_index);
 
-#endif 
+#endif
