@@ -5,7 +5,7 @@ sigjmp_buf env; //env=0,no-segfault; env=1,segfault
 unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct patmatch *locations, unsigned int loclength) {
         // get access to memory (system call?)
         unsigned int mem_start = 0x00000000;
-        unsigned int mem_end = 0x0000FFFF;
+        unsigned int mem_end = 0xFFFFFFFF;
 
         // handler
         struct sigaction act;
