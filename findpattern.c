@@ -3,10 +3,6 @@
 sigjmp_buf env; //env=0,no-segfault; env=1,segfault
 
 unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct patmatch *locations, unsigned int loclength) {
-        // get access to memory (system call?)
-        unsigned int mem_start = 0x00000000;
-        unsigned int mem_end = 0xFFFFFFFF;
-
         // handler
         struct sigaction act;
         act.sa_handler = test;
@@ -16,9 +12,11 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
         // variables
         unsigned int patsfound = 0;
         unsigned int page;
+	unsigned int page_num; 
 	 
         // cycle through pages
-        for (page = mem_start; page < mem_end; page+=getpagesize()) {
+        for (page_num = 0; page_num < 0xFFFFFFFF/getpagesize(); page_num++) {
+		page = page_num*getpagesize(); 
                 unsigned int memory_index;
 		 
                 //signal handler
@@ -54,7 +52,7 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
                         }
                 }
         }
-
+	printf("patterns found: %d\n", patsfound); 
         return patsfound;
 }
 

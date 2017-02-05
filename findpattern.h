@@ -6,9 +6,13 @@
 #include <unistd.h>
 #include <setjmp.h>
 #include <signal.h>
+#include <string.h>
 
 #define MEM_RW 0
 #define MEM_RO 1
+
+#define mem_start 0x00000000; 
+#define mem_end 0xFFFFFFFF; 
 
 struct patmatch {
 	unsigned int location;
