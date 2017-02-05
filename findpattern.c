@@ -16,11 +16,11 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
         // variables
         unsigned int patsfound = 0;
         unsigned int page;
-
+	 
         // cycle through pages
         for (page = mem_start; page < mem_end; page+=getpagesize()) {
                 unsigned int memory_index;
-
+		 
                 //signal handler
                 if (sigsetjmp(env,0) == 1) {
                         printf("SEGFAULT at Page Num: %d\n", page);
@@ -42,7 +42,7 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
                                                 }
                                                 patsfound++; // increment counter
                                         } else { // we are not at the last item in the pattern
-                                                printf("%u\n", memory_index);
+                                                printf("possible pattern @ %u\n", memory_index);
                                                 continue; // check the next one
                                         }
 
