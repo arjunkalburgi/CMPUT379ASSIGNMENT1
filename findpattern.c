@@ -70,7 +70,7 @@ void patternFound(unsigned int memory_index, struct patmatch *locations, unsigne
         temp.location = (unsigned int) memory_index;
         temp.mode = memType(memory_index);
 
-        locations[patsfound*3] = temp;
+        locations[patsfound] = temp;
 }
 
 unsigned int memType(unsigned int memory_index) {
