@@ -36,7 +36,21 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
                                         if (pattern_index == patlength) { // we are at the last item in the pattern
                                                 printf("PAT found\n");
                                                 if (patsfound < loclength) { // we are under the storage limit
-                                                        patternFound(memory_index, locations, patsfound); // make and store
+							unsigned int temp_mem = memory_index;         
+							// make patmatch
+						       	locations[patsfound].location = (unsigned int) memory_index;
+        
+						        if (sigsetjmp(env,0) == 1) {
+						                //printf("Write SEGFAULT at %d\n", memory_index);
+						                locations[patsfound].mode = MEM_RO;
+						        } else {
+						                // test write
+						                memory_index = '1';
+						                //printf("No Write SEGFAULT at %d\n", memory_index);
+						                 locations[patsfound].mode = MEM_RW;
+						        }
+	
+							memory_index = temp_mem; 
                                                 }
                                                 patsfound++; // increment counter
                                         } else { // we are not at the last item in the pattern
@@ -62,24 +76,3 @@ void test (int sig) {
         return;
 }
 
-void patternFound(unsigned int memory_index, struct patmatch *locations, unsigned int patsfound) {
-        // make patmatch
-        struct patmatch temp;
-        temp.location = (unsigned int) memory_index;
-        temp.mode = memType(memory_index);
-
-        locations[patsfound] = temp;
-}
-
-unsigned int memType(unsigned int memory_index) {
-        // if write segfault
-        if (sigsetjmp(env,0) == 1) {
-                //printf("Write SEGFAULT at %d\n", memory_index);
-                return MEM_RO;
-        } else {
-                // test write
-                memory_index = '1';
-                //printf("No Write SEGFAULT at %d\n", memory_index);
-                return MEM_RW;
-        }
-}

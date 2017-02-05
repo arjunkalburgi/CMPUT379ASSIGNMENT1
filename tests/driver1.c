@@ -20,6 +20,7 @@ int main(int argc, char const *argv[])
 			i = i + patlength -1; 
 		}
 	}
+	printf("heap: %s\n", heap); 
 	 
 	// run find pattern on our heap
 	unsigned char pattern[patlength];

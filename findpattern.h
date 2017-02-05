@@ -21,7 +21,5 @@ struct patmatch {
 
 unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct patmatch *locations, unsigned int loclength);
 void test (int sig);
-void patternFound(unsigned int memory_index, struct patmatch *locations, unsigned int patsfound);
-unsigned int memType(unsigned int memory_index);
 
 #endif
