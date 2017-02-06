@@ -1,4 +1,4 @@
-#include ../findpattern.h 
+#include "../findpattern.h"
 
 // create local instances of the pattern on the stack. To do this you need to think of how you can store an instance of 
 // the pattern on the stack only after your first call to findpattern().
