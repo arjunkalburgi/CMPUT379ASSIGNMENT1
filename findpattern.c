@@ -13,7 +13,7 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
         unsigned int patsfound = 0;
         unsigned int page;
 	unsigned int page_num; 
-	 
+	
         // cycle through pages
         for (page_num = 0; page_num < 0xFFFFFFFF/getpagesize(); page_num++) {
 		page = page_num*getpagesize(); 
@@ -31,8 +31,9 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
                 for (memory_index=page; memory_index<=(page+getpagesize()); memory_index++) { 
                         unsigned int pattern_index;
                         for (pattern_index=0; pattern_index<=patlength; pattern_index++) {
-                                if (pattern[pattern_index] == memory_index) { // the item at pattern_index is the same as the item at memory_index                                          
-
+                                if (pattern[pattern_index] == (char *)(memory_index+pattern_index)) { // the item at pattern_index is the same as the item at memory_index                                          
+					printf("%c %c %c %c \n", pattern[pattern_index], pattern[pattern_index+1], pattern[pattern_index+2], pattern[pattern_index+3]); 
+					printf("%c %c %c %c \n", (memory_index+pattern_index), (memory_index+pattern_index+1), (memory_index+pattern_index+2), (memory_index+pattern_index+3));
                                         if (pattern_index == patlength) { // we are at the last item in the pattern
                                                 printf("PAT found\n");
                                                 if (patsfound < loclength) { // we are under the storage limit
@@ -53,16 +54,15 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
 							memory_index = temp_mem; 
                                                 }
                                                 patsfound++; // increment counter
+						memory_index += patlength - 1; //move forward so it doesn't go over these again
                                         } else { // we are not at the last item in the pattern
                                                 printf("possible pattern @ %u\n", memory_index);
                                                 continue; // check the next one
                                         }
 
-                                } else if (&pattern_index != &memory_index) { // we're not at a pattern
-                                        memory_index = memory_index - pattern_index + 1; // reset memory_index
+                                } else if (pattern_index>0 && pattern[pattern_index] != (char *)(memory_index+pattern_index)) { // we're not at a pattern, but we thought we were
                                         break; // start over
                                 }
-                                memory_index++;
                         }
                 }
         }
