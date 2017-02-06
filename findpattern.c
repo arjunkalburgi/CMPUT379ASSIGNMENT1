@@ -22,7 +22,7 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
                 //signal handler
                 if (sigsetjmp(env,0) == 1) {
                         printf("SEGFAULT at Page Num: %d\n", page);
-                        continue; // skip to next page
+			continue; // skip to next page
                 } else {
                         memory_index = page;
                         //printf("no read SEGFAULT\n");
@@ -30,10 +30,10 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
 
                 unsigned int pattern_index = 0; 
                 for (memory_index=page; memory_index<=(page+getpagesize()); memory_index++) { 
-                        unsigned int * memory_ptr = memory_index; 
-                        if (*memory_ptr == pattern[pattern_index]) {
+                        //unsigned int * memory_ptr = memory_index; 
+                        if ((char *)memory_index == pattern[pattern_index]) {
                                 pattern_index++; 
-                                printf("on to something: %c\n", *((char *)memory_ptr));
+                                //printf("on to something: %c\n", *((char *)memory_ptr));
                                 if (pattern_index == patlength) {
                                         printf("PAT found\n");
                                         if (patsfound < loclength) { // we are under the storage limit
