@@ -31,7 +31,7 @@ unsigned int findpattern (unsigned char *pattern, unsigned int patlength, struct
                 unsigned int pattern_index = 0; 
                 for (memory_index=page; memory_index<=(page+getpagesize()); memory_index++) { 
                         //unsigned int * memory_ptr = memory_index; 
-                        if ((char *)memory_index == pattern[pattern_index]) {
+                        if (memory_index == pattern[pattern_index]) {
                                 pattern_index++; 
                                 //printf("on to something: %c\n", *((char *)memory_ptr));
                                 if (pattern_index == patlength) {
