@@ -27,6 +27,6 @@ int main(int argc, char const *argv[])
 	memcpy(pattern, argv[1], patlength); 
 	struct patmatch locations[loclength];
 
-	findpattern (pattern, patlength, locations, loclength);
-	return 0;
+	return findpattern (pattern, patlength, locations, loclength);
+	//return 0;
 }
